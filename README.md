@@ -15,7 +15,7 @@ The project was built using the Ubuntu 16-04 bash shell in Windows 10. Instructi
 The project consists primarily of the following files located in the [src](https://github.com/shazraz/PID-Controller/tree/master/src) folder:
 
 * [main.cpp](https://github.com/shazraz/PID-Controller/blob/master/src/main.cpp): Interfaces with the simulator using uWebSocketIO to recieve speed and CTE values to generate the steer and throttle values.
-* [main.cpp](https://github.com/shazraz/PID-Controller/blob/master/src/PID.cpp): Implements the PID controller.
+* [PID.cpp](https://github.com/shazraz/PID-Controller/blob/master/src/PID.cpp): Implements the PID controller.
 
 Once the environment is ready, the code can be tested as follows:
 
@@ -37,4 +37,8 @@ The proportional error term, ```Kp_ x p_error_```, returns a steering angle comp
 
 The differential error term, ```Kd_ x d_error_```, returns a steering angle component value equal to the difference in the CTE between the current and previous timestep. This is useful for generating large steering angles when the vehicle is significantly far from the reference position and smaller steering angle values the closer the vehicle gets to its reference position. This creates a damping effect in the oscillations seen when using only the proportional error term when used correctly.
 
-The integral error term, ```Ki_ x i_error_```, 
+The integral error term, ```Ki_ x i_error_```, returns a steering angle component value that is equal to the cumulative error accrued by the PID controller since initializing. This is useful for correcting biases that may exist in the calibration of the vehicle steering.
+
+It is important to note that each of these components has an additive effect on the steering angle, i.e. the addition of components increases the overall magnitude of the steering angle for a given CTE. The objective is therefore to come up with values for the coefficients that would generate very small steering angle values for small CTEs and decreasing steering angle values as CTE decreases. This can be achieved by tuning the controller so that the predominant contributor to the steering angle is the differential error term.
+
+
