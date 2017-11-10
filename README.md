@@ -73,3 +73,21 @@ Speed Reduction: 55 mph
 The performance can be verified by executing ```./pid 0.095 0.0001 1.7 60``` and then running the simulator.
 
 NOTE: The simulator was set to Fastest graphics mode and a window size of 800x600 during the tuning process. It was observed that higher graphics settings significantly deteriorated the performance of the controller due to limitations in the hardware used to run the simulator.
+
+The plots below compare the contributions of the various error terms for various sections of the track.
+
+One Lap:
+
+<img src="./graphics/full_track.png" width="750"> 
+
+Initial straight section:
+
+<img src="./graphics/straight.png" width="750"> 
+
+Turns after bridge:
+
+<img src="./graphics/turns.png" width="750"> 
+
+As expected, the proportional term and differential terms are minimal during the straight sections of the roadway whereas the proportional term dominates in the curved sections.
+
+
