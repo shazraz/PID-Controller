@@ -65,13 +65,10 @@ Finally a small integral term was introduced to account for any biases that may 
 
 The final choice of parameters, after additional tuning, is as follows:
 
-Speed Controller: {0.2, 0, 0.1}
-
-Steer Controller: {0.095, 0.0001, 1.7}
-
-Max Speed: 60 mph
-
-Speed Reduction: 55 mph
+* Speed Controller: {0.2, 0, 0.1}
+* Steer Controller: {0.095, 0.0001, 1.7}
+* Max Speed: 60 mph
+* Speed Reduction: 55 mph
 
 The performance can be verified by executing ```./pid 0.095 0.0001 1.7 60``` and then running the simulator.
 
