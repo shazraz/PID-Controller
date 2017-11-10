@@ -62,12 +62,12 @@ The speed was then increased in increments of 10mph resulting in oscillations be
 
 Finally a small integral term was introduced to account for any biases that may exist which had a very subtle effect on the vehicle performance. In particular, mild overshoots were observed at certain turns. 
 
-The final choice of parameters is as follows:
+The final choice of parameters, after additional tuning, is as follows:
 
 Speed Controller: {0.2, 0, 0.1}
 Steer Controller: {0.095, 0.0001, 1.7}
 Max Speed: 60 mph
-Speed Reduction: 45 mph
+Speed Reduction: 55 mph
 
 The performance can be verified by executing ```./pid 0.095 0.0001 1.7 60``` and then running the simulator.
 
