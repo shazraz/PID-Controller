@@ -39,7 +39,9 @@ The differential error term, ```Kd_ x d_error_```, returns a steering angle comp
 
 The integral error term, ```Ki_ x i_error_```, returns a steering angle component value that is equal to the cumulative error accrued by the PID controller since initializing. This is useful for correcting biases that may exist in the calibration of the vehicle steering.
 
-It is important to note that each of these components has an additive effect on the steering angle, i.e. the addition of components increases the overall magnitude of the steering angle for a given CTE. The objective is therefore to come up with values for the coefficients that would generate very small steering angle values for small CTEs and decreasing steering angle values as CTE decreases. This can be achieved by tuning the controller so that the predominant contributor to the steering angle is the differential error term.
+It is important to note that each of these components has an additive effect on the steering angle, i.e. the addition of components increases the overall magnitude of the steering angle for a given CTE. The objective is therefore to come up with values for the coefficients that would generate very small steering angle values for small CTEs and decreasing steering angle values as CTE decreases. This can be achieved by tuning the controller so that the predominant contributor to the steering angle is the differential error term when navigating straight sections and the proportional error term when navigating curves. This results in a reduced oscillations in the straight sections of the track and also allows for sharp manuevering around curves. This can be done by setting Kd to be an order of magnitude larger than Kp.
 
 ## 4. Results & Discussion
+
+
 
