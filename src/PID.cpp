@@ -2,9 +2,6 @@
 
 using namespace std;
 
-/*
-* TODO: Complete the PID class.
-*/
 
 PID::PID() {}
 
@@ -21,6 +18,7 @@ void PID::Init(double Kp, double Ki, double Kd) {
 }
 
 void PID::UpdateError(double cte) {
+	//Calculate d_error_ using previous p_error_ value
 	d_error_ = cte - p_error_;
 	p_error_ = cte;
 	i_error_ += cte;

@@ -34,11 +34,11 @@ int main(int argc, char* argv[])
 
   PID steer_controller;
   PID speed_controller;
-  // TODO: Initialize the pid variable.
+
   double Kp = atof(argv[1]);
   double Ki = atof(argv[2]);
   double Kd = atof(argv[3]);
-  double target_speed = atof(argv[4]);
+  double max_speed = atof(argv[4]);
 
   double Kp_speed = 0.2;
   double Ki_speed = 0.0;
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
   steer_controller.Init(Kp, Ki, Kd);
   speed_controller.Init(Kp_speed, Ki_speed, Kd_speed);
 
-  h.onMessage([&steer_controller, &speed_controller, &target_speed](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&steer_controller, &speed_controller, &max_speed](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
           
           double steer_value;
           double throttle_value;
-          double actual_speed;
+          double target_speed;
           double cte_speed;
 
           //Bounds for throttle values
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 		  double max_steer = 1.0;
 		  double min_steer = -1.0;
 		  //maximum amount to reduce speed by
-          double speed_reduction = 45.0; 
+          double speed_reduction = 55.0; 
           
           //Update the error and get the new steer value
           steer_controller.UpdateError(cte);
@@ -90,10 +90,10 @@ int main(int argc, char* argv[])
           }
 
           //Set the actual speed based on the magnitude of steering angle
-          actual_speed = target_speed - fabs(steer_value)*speed_reduction;
+          target_speed = max_speed - fabs(steer_value)*speed_reduction;
 
           //Calculate the CTE for speed
-          cte_speed = speed - actual_speed;
+          cte_speed = speed - target_speed;
           //Update the error and get the new throttle value
           speed_controller.UpdateError(cte_speed);
           throttle_value = speed_controller.TotalError();
@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
           }
 
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << " Actual target speed: " << actual_speed << std::endl;
+          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << " Target speed: " << target_speed << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
