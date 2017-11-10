@@ -23,7 +23,7 @@ Once the environment is ready, the code can be tested as follows:
 2. Execute ```./pid Kp Ki Kd MaxSpeed``` from the build directory
 3. Click Start in the simulator
 
-## 3. Results & Discussion
+## 3. Controller Tuning
 The PID executable expects four arguments at run-time defined as follows:
 
 * Kp: Coefficient for proportional error term
@@ -41,4 +41,5 @@ The integral error term, ```Ki_ x i_error_```, returns a steering angle componen
 
 It is important to note that each of these components has an additive effect on the steering angle, i.e. the addition of components increases the overall magnitude of the steering angle for a given CTE. The objective is therefore to come up with values for the coefficients that would generate very small steering angle values for small CTEs and decreasing steering angle values as CTE decreases. This can be achieved by tuning the controller so that the predominant contributor to the steering angle is the differential error term.
 
+## 4. Results & Discussion
 
