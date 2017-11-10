@@ -60,9 +60,13 @@ The initial choice of parameters, {Kp, Ki, Kd}, for the steering controller was 
 
 The speed was then increased in increments of 10mph resulting in oscillations becoming more visible at higher speeds. The proportional term was therefore slightly reduced and the differential term increased resulting in a parameter set of {0.09, 0, 1.2} at a speed of 60mph which resulted in satisfactory performance. The speed reduction was set to 45. 
 
-Finally a small integral term was introduced to account for any biases that may exist which had a very subtle effect on the vehicle performance. In particular, mild overshoots were observed at certain turns. The final choice of parameters is as follows:
+Finally a small integral term was introduced to account for any biases that may exist which had a very subtle effect on the vehicle performance. In particular, mild overshoots were observed at certain turns. 
+
+The final choice of parameters is as follows:
 
 Speed Controller: {0.2, 0, 0.1}
-Steer Controller: {0.09, 0.0001, 1.2}
-Max Speed: 30 - 70 mph
+Steer Controller: {0.095, 0.0001, 1.7}
+Max Speed: 60 mph
 Speed Reduction: 45 mph
+
+The performance can be verified by executing ```./pid 0.095 0.0001 1.7 60``` and then running the simulator.
