@@ -49,7 +49,13 @@ A separate PID controller is used to control the throttle value of the vehicle t
 
 The target speed of the vehicle is calculated as follows:
 
-```Target Speed = Max Speed - |Steering Angle| x Reduction Factor```
+```Target Speed = Max Speed - |Steering Angle| x Speed Reduction```
 
-where the maximum speed is defined at runtime and the reduction factor is a tunable parameter. The CTE used for the speed controller is then the difference between the current speed and the target speed. This enables the vehicle to slow down during sharp turns and accelarate during straight stretches of the roadway. 
+where the maximum speed is defined at runtime and Speed Reduction is a tunable parameter. The CTE used for the speed controller is then the difference between the current speed and the target speed. This enables the vehicle to slow down during sharp turns and accelarate during straight stretches of the roadway. 
 
+## 5. Results
+The speed controller was initialized at {Kp, Ki, Kd} = {0.2, 0, 0.1} which did a reasonable job of maintaining speed so the parameters weren't tuned further. The maximum speed was initially set to 30 with a speed reduction of 20.
+
+The initial choice of parameters, {Kp, Ki, Kd}, for the steering controller was {0.5, 0, 0} which resulted in large oscillations of the vehicle as expected. This was reduced to {0.1, 0, 0} which reduced the magnitude of steering angles initially but the oscillations remained. A differential term was then introduced giving a parameter set of {0.1, 0, 1.0} which was able to successfully navigate the track without any issues.
+
+The speed was then increased in increments of 10mph resulting in oscillations becoming more visible at higher speeds. The proportional term was therefore slightly reduced and the differential term increased resulting in a parameter set of {0.09, 0, 1.1} at a speed of 
