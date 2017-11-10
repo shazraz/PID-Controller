@@ -88,6 +88,6 @@ Turns after bridge:
 
 <img src="./graphics/turns.png" width="750"> 
 
-As expected, the proportional term and differential terms are minimal during the straight sections of the roadway whereas the proportional term dominates in the curved sections.
+As expected, the proportional term and differential terms are minimal during the straight sections of the roadway whereas the proportional term dominates in the curved sections. The integral term plays a minimal role in the steering angle confirming the absence of any significant bias in the vehicle steering.
 
 
