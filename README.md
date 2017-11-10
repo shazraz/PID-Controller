@@ -51,7 +51,7 @@ The target speed of the vehicle is calculated as follows:
 
 ```Target Speed = Max Speed - |Steering Angle| x Speed Reduction```
 
-where the maximum speed is defined at runtime and Speed Reduction is a tunable parameter. The CTE used for the speed controller is then the difference between the current speed and the target speed. This enables the vehicle to slow down during sharp turns and accelarate during straight stretches of the roadway. 
+where the maximum speed is defined at runtime and Speed Reduction is a tunable parameter. The CTE used for the speed controller is then the difference between the current speed and the target speed. This enables the vehicle to slow down during sharp turns and accelarate during straight stretches of the roadway.
 
 ## 5. Results
 The speed controller was initialized at {Kp, Ki, Kd} = {0.2, 0, 0.1} which did a reasonable job of maintaining speed so the parameters weren't tuned further. The maximum speed was initially set to 30 with a speed reduction of 20.
@@ -70,3 +70,5 @@ Max Speed: 60 mph
 Speed Reduction: 45 mph
 
 The performance can be verified by executing ```./pid 0.095 0.0001 1.7 60``` and then running the simulator.
+
+NOTE: The simulator was set to Fastest graphics mode and a window size of 800x600 during the tuning process. It was observed that higher graphics settings significantly deteriorated the performance of the controller due to limitations in the hardware used to run the simulator.
