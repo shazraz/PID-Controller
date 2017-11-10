@@ -72,7 +72,7 @@ Speed Reduction: 55 mph
 
 The performance can be verified by executing ```./pid 0.095 0.0001 1.7 60``` and then running the simulator.
 
-NOTE: The simulator was set to Fastest graphics mode and a window size of 800x600 during the tuning process. It was observed that higher graphics settings significantly deteriorated the performance of the controller due to limitations in the hardware used to run the simulator.
+*NOTE: The simulator was set to Fastest graphics mode and a window size of 800x600 during the tuning process. It was observed that higher graphics settings significantly deteriorated the performance of the controller due to limitations in the hardware used to run the simulator.*
 
 The plots below compare the contributions of the various error terms for various sections of the track.
 
