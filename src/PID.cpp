@@ -12,19 +12,27 @@ void PID::Init(double Kp, double Ki, double Kd) {
 	Ki_ = Ki;
 	Kd_ = Kd;
 
-	p_error_ = 0;
-	i_error_ = 0;
-	d_error_ = 0;
+	//p_error_ = 0;
+	//i_error_ = 0;
+	//d_error_ = 0;
+	error_vector_.resize(3);
+
 }
 
-void PID::UpdateError(double cte) {
+std::vector<double> PID::UpdateError(double cte) {
 	//Calculate d_error_ using previous p_error_ value
-	d_error_ = cte - p_error_;
-	p_error_ = cte;
-	i_error_ += cte;
+	error_vector_[2] = cte - error_vector_[0];
+	error_vector_[0] = cte;
+	error_vector_[1] += cte;
+
+	//d_error_ = cte - p_error_;
+	//p_error_ = cte;
+	//i_error_ += cte;
+
+	return error_vector_;
 }
 
 double PID::TotalError() {
-	return -(Kp_*p_error_ + Ki_*i_error_ + Kd_*d_error_);
+	return -(Kp_*error_vector_[0] + Ki_*error_vector_[1] + Kd_*error_vector_[2]);
 }
 

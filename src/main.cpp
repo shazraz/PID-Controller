@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
+#include <fstream>
 
 // for convenience
 using json = nlohmann::json;
@@ -34,6 +35,8 @@ int main(int argc, char* argv[])
 
   PID steer_controller;
   PID speed_controller;
+  std::ofstream output_file;
+
 
   double Kp = atof(argv[1]);
   double Ki = atof(argv[2]);
@@ -44,10 +47,18 @@ int main(int argc, char* argv[])
   double Ki_speed = 0.0;
   double Kd_speed = 0.1;
 
+
+  if (argc > 5) {
+  	output_file.open(argv[5]);
+  	//Write headers
+  	output_file << "CTE, steer-value, p-term, i-term, d-term\n";
+
+  }
+
   steer_controller.Init(Kp, Ki, Kd);
   speed_controller.Init(Kp_speed, Ki_speed, Kd_speed);
 
-  h.onMessage([&steer_controller, &speed_controller, &max_speed](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&steer_controller, &speed_controller, &max_speed, &output_file](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -68,6 +79,9 @@ int main(int argc, char* argv[])
           double target_speed;
           double cte_speed;
 
+          std::vector<double> steer_error(3, 0.0);
+          std::vector<double> throttle_error(3, 0.0);
+
           //Bounds for throttle values
   		  double max_throttle = 1.0;
 		  double min_throttle = -1.0;
@@ -78,7 +92,7 @@ int main(int argc, char* argv[])
           double speed_reduction = 55.0; 
           
           //Update the error and get the new steer value
-          steer_controller.UpdateError(cte);
+          steer_error = steer_controller.UpdateError(cte);
           steer_value = steer_controller.TotalError();
 
           //Cap the steer valuee
@@ -95,7 +109,7 @@ int main(int argc, char* argv[])
           //Calculate the CTE for speed
           cte_speed = speed - target_speed;
           //Update the error and get the new throttle value
-          speed_controller.UpdateError(cte_speed);
+          throttle_error = speed_controller.UpdateError(cte_speed);
           throttle_value = speed_controller.TotalError();
 
 		  //Cap the throttle value
@@ -107,7 +121,15 @@ int main(int argc, char* argv[])
           }
 
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << " Target speed: " << target_speed << std::endl;
+          //std::cout << "CTE: " << cte << " Steering Value: " << steer_value << " Target speed: " << target_speed << std::endl;
+
+          if (output_file.is_open()) {
+    	  	output_file << std::fixed << std::setprecision(4) << cte << ",";
+    	  	output_file << std::fixed << std::setprecision(4) << steer_value <<",";
+    	  	output_file << std::fixed << std::setprecision(4) << steer_error[0] <<",";
+    	  	output_file << std::fixed << std::setprecision(4) << steer_error[1] <<",";
+    	  	output_file << std::fixed << std::setprecision(4) << steer_error[2] <<"\n";
+    	   }
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
@@ -115,6 +137,7 @@ int main(int argc, char* argv[])
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           //std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+
         }
       } else {
         // Manual driving
@@ -159,4 +182,7 @@ int main(int argc, char* argv[])
     return -1;
   }
   h.run();
+  if (output_file.is_open()) {
+		output_file.close();
+  }
 }

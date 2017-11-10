@@ -1,15 +1,17 @@
 #ifndef PID_H
 #define PID_H
 
+#include <vector>
+
 class PID {
 
 public:
   /*
   * Errors
   */
-  double p_error_;
-  double i_error_;
-  double d_error_;
+  //double p_error_;
+  //double i_error_;
+  //double d_error_;
 
   /*
   * Coefficients
@@ -17,6 +19,9 @@ public:
   double Kp_;
   double Ki_;
   double Kd_;
+
+  //Error vector consisting of p_error, i_error_, d_error_ respectively
+  std::vector<double> error_vector_;
 
   /*
   * Constructor
@@ -36,7 +41,7 @@ public:
   /*
   * Update the PID error variables given cross track error.
   */
-  void UpdateError(double cte);
+  std::vector<double> UpdateError(double cte);
 
   /*
   * Calculate the total PID error.
